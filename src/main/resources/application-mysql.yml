@@ -1,0 +1,9 @@
+#请在启动参数中加入--spring.profiles.active=mysql以激活本配置文件
+database: mysql
+
+spring:
+  datasource:
+    url: "jdbc:mysql://mysql.lan:3306/bookstore?useUnicode=true&characterEncoding=utf-8"
+    username: "root"
+    password: "[4321qwer]"
+    initialization-mode: always

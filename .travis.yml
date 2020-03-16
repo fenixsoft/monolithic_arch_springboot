@@ -1,0 +1,16 @@
+language: java
+jdk:
+  - openjdk12
+before_install:
+  - export TZ='Asia/Shanghai'
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script:
+  - mvn clean package
+deploy:
+  - provider: script
+    keep_history: true
+    skip_cleanup: true
+    script: bash travis_docker_push.sh
+    on:
+      branch: master

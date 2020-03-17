@@ -23,6 +23,7 @@ import com.github.fenixsoft.bookstore.domain.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
@@ -53,7 +54,7 @@ public class Account extends BaseEntity {
     @Pattern(regexp = "1\\d{10}", message = "手机号格式不正确")
     private String telephone;
 
-    @NotEmpty(message = "邮箱不允许为空")
+    @Email(message = "邮箱格式不正确")
     private String email;
 
     private String location;

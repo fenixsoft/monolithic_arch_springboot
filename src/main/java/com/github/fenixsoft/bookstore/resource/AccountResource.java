@@ -77,7 +77,6 @@ public class AccountResource {
      * 更新用户信息
      */
     @PUT
-    @RolesAllowed(Role.ADMIN)
     @CacheEvict(key = "#user.username")
     public Response updateUser(@Valid @AuthenticatedAccount @NotConflictAccount Account user) {
         return CommonResponse.op(() -> service.updateAccount(user));

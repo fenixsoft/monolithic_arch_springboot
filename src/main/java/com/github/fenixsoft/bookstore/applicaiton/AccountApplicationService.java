@@ -43,6 +43,7 @@ public class AccountApplicationService {
     private Encryption encoder;
 
     public void createAccount(Account account) {
+        // TODO 这里密码只简单哈希保存，应该修改为加随机盐值，保存密码和盐值
         account.setPassword(encoder.encode(account.getPassword()));
         repository.save(account);
     }

@@ -72,13 +72,15 @@ public class PaymentService {
      * 意味着客户已经完成付款，这个方法在正式业务中应当作为三方支付平台的回调，而演示项目就直接由客户端发起调用了
      */
     public void accomplish(String payId) {
-        Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
-        if (payment.getPayState() == Payment.State.WAITING) {
-            payment.setPayState(Payment.State.PAYED);
-            paymentRepository.save(payment);
-            log.info("编号为{}的支付单已成功完成", payId);
-        } else {
-            throw new UnsupportedOperationException("当前订单不允许支付，当前状态为：" + payment.getPayState());
+        synchronized (payId.intern()) {
+            Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
+            if (payment.getPayState() == Payment.State.WAITING) {
+                payment.setPayState(Payment.State.PAYED);
+                paymentRepository.save(payment);
+                log.info("编号为{}的支付单已成功完成", payId);
+            } else {
+                throw new UnsupportedOperationException("当前订单不允许支付，当前状态为：" + payment.getPayState());
+            }
         }
     }
 
@@ -86,16 +88,18 @@ public class PaymentService {
      * 取消支付单
      * <p>
      * 客户取消支付单，此时应当立即释放处于冻结状态的库存
-     * 由于支付单的存储中未保存购物明细（在Settlement中），所以这步就不做处理了，等3分钟后在触发器中释放
+     * 由于支付单的存储中应该保存而未持久化的购物明细（在Settlement中），所以这步就不做处理了，等2分钟后在触发器中释放
      */
     public void cancel(String payId) {
-        Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
-        if (payment.getPayState() == Payment.State.WAITING) {
-            payment.setPayState(Payment.State.CANCEL);
-            paymentRepository.save(payment);
-            log.info("编号为{}的支付单已被取消", payId);
-        } else {
-            throw new UnsupportedOperationException("当前订单不允许取消，当前状态为：" + payment.getPayState());
+        synchronized (payId.intern()) {
+            Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
+            if (payment.getPayState() == Payment.State.WAITING) {
+                payment.setPayState(Payment.State.CANCEL);
+                paymentRepository.save(payment);
+                log.info("编号为{}的支付单已被取消", payId);
+            } else {
+                throw new UnsupportedOperationException("当前订单不允许取消，当前状态为：" + payment.getPayState());
+            }
         }
     }
 
@@ -109,26 +113,28 @@ public class PaymentService {
      * 则执行出库，将冻结的商品状态转为售出，以真正减少库存，并将Payment的状态修改为COMMIT。
      * <p>
      * 注意：
-     * 使用TimerTask意味着节点带有状态，这在集群应用中是必须明确反对的，譬如，考虑支付订单的取消场景：
-     * 无论支付状态如何，这个TimerTask到时间之后都应当被执行。不要尝试使用TimerTask::cancel来取消任务。
+     * 使用TimerTask意味着节点带有状态，这在集群式应用中是必须明确反对的，譬如以下缺陷：
+     * 1. 如果要考虑支付订单的取消场景，无论支付状态如何，这个TimerTask到时间之后都应当被执行。不能尝试使用TimerTask::cancel来取消任务。
      * 因为只有带有上下文状态的节点才能完成取消操作，如果要这样做，就必须使用支持集群的定时任务（如Quartz）以保证多集群节点下能够正常取消任务。
-     * 与之类似的，如果节点被重启、同样会面临到状态的丢失，导致一部分处于冻结的触发器永远无法被执行
-     * 即时只考虑正常支付的情况，真正生产环境中这种代码需要一个支持集群的同步锁（如用Redis实现互斥量），避免解冻支付和该支付单被完成两个事件同时发生
+     * 2. 如果节点被重启、同样会面临到状态的丢失，导致一部分处于冻结的触发器永远无法被执行
+     * 3. 即时只考虑正常支付的情况，真正生产环境中这种代码需要一个支持集群的同步锁（如用Redis实现互斥量），避免解冻支付和该支付单被完成两个事件同时发生
      */
     public void setupAutoThawedTrigger(Payment payment) {
         timer.schedule(new TimerTask() {
             public void run() {
-                // 使用3分钟之前的Payment到数据库中查出当前的Payment
-                Payment currentPayment = paymentRepository.findById(payment.getId()).orElseThrow();
-                Payment.State endState = currentPayment.getPayState() == Payment.State.PAYED ? Payment.State.COMMIT : Payment.State.ROLLBACK;
-                log.info("支付单{}当前状态为{}，转变为{}", payment.getId(), currentPayment.getPayState(), endState);
-                payment.settlement.getItems().forEach(i -> {
-                    if (endState == Payment.State.COMMIT) {
-                        stockpileService.decrease(i.getProductId(), i.getAmount());
-                    } else {
-                        stockpileService.thawed(i.getProductId(), i.getAmount());
-                    }
-                });
+                synchronized (payment.getPayId().intern()) {
+                    // 使用2分钟之前的Payment到数据库中查出当前的Payment
+                    Payment currentPayment = paymentRepository.findById(payment.getId()).orElseThrow();
+                    Payment.State endState = currentPayment.getPayState() == Payment.State.PAYED ? Payment.State.COMMIT : Payment.State.ROLLBACK;
+                    log.info("支付单{}当前状态为{}，转变为{}", payment.getId(), currentPayment.getPayState(), endState);
+                    payment.settlement.getItems().forEach(i -> {
+                        if (endState == Payment.State.COMMIT) {
+                            stockpileService.decrease(i.getProductId(), i.getAmount());
+                        } else {
+                            stockpileService.thawed(i.getProductId(), i.getAmount());
+                        }
+                    });
+                }
             }
         }, payment.getExpires());
     }

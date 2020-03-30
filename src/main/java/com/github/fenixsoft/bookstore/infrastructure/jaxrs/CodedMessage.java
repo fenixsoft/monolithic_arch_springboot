@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 /**
  * 带编码的实体容器
  * <p>
- * 用于返回给客户端以形式为“{code,message,entity}”的对象格式
+ * 一般来说REST服务应采用HTTP Status Code带回错误信息编码
+ * 但很多前端开发都习惯以JSON-RPC的风格处理异常，所以仍然保留这个编码容器
+ * 用于返回给客户端以形式为“{code,message,data}”的对象格式
  *
  * @author icyfenix@gmail.com
  * @date 2020/3/6 15:34
@@ -41,7 +43,7 @@ public class CodedMessage {
 
     private Integer code;
     private String message;
-    private Object entity;
+    private Object data;
 
     public CodedMessage() {
     }
@@ -51,9 +53,9 @@ public class CodedMessage {
         setMessage(message);
     }
 
-    public CodedMessage(Integer code, String message, Object entity) {
+    public CodedMessage(Integer code, String message, Object data) {
         this(code, message);
-        setEntity(entity);
+        setData(data);
     }
 
     public Integer getCode() {
@@ -72,11 +74,11 @@ public class CodedMessage {
         this.message = message;
     }
 
-    public Object getEntity() {
-        return entity;
+    public Object getData() {
+        return data;
     }
 
-    public void setEntity(Object entity) {
-        this.entity = entity;
+    public void setData(Object data) {
+        this.data = data;
     }
 }

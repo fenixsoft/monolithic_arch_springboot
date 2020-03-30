@@ -77,7 +77,7 @@ public class Payment extends BaseEntity {
         setPayState(State.WAITING);
         // 下面这两个是随便写的，实际应该根据情况调用支付服务，返回待支付的ID
         setPayId(UUID.randomUUID().toString());
-        setPaymentLink("https://localhost:8080/pay/modify/" + getPayId() + "?state=PAYED");
+        setPaymentLink("http://localhost:8080/pay/modify/" + getPayId() + "?state=PAYED");
     }
 
     private Date createTime;

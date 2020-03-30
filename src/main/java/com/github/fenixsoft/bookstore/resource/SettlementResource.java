@@ -50,7 +50,7 @@ public class SettlementResource {
     private PaymentApplicationService service;
 
     /**
-     * 结束掉一张交易结算单，根据结算单中的物品，生成支付单
+     * 提交一张交易结算单，根据结算单中的物品，生成支付单
      */
     @POST
     @RolesAllowed(Role.USER)

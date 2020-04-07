@@ -50,6 +50,9 @@ public class PaymentApplicationService {
     @Inject
     private WalletService walletService;
 
+    @Resource(name = "settlement")
+    private Cache settlementCache;
+
     /**
      * 根据结算清单的内容执行，生成对应的支付单
      */
@@ -68,8 +71,12 @@ public class PaymentApplicationService {
      * 立即取消解冻定时器，执行扣减库存和资金
      */
     public void accomplishPayment(Integer accountId, String payId) {
+        // 订单从冻结状态变为派送状态，扣减库存
         double price = paymentService.accomplish(payId);
+        // 扣减货款
         walletService.decrease(accountId, price);
+        // 支付成功的清除缓存
+        settlementCache.evict(payId);
     }
 
     /**
@@ -77,7 +84,10 @@ public class PaymentApplicationService {
      * 立即触发解冻定时器，释放库存和资金
      */
     public void cancelPayment(String payId) {
+        // 释放冻结的库存
         paymentService.cancel(payId);
+        // 支付成功的清除缓存
+        settlementCache.evict(payId);
     }
 
     /**

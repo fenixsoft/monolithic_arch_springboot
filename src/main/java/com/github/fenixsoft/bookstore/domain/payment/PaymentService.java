@@ -157,7 +157,6 @@ public class PaymentService {
                 stockpileService.thawed(i.getProductId(), i.getAmount());
             }
         });
-        settlementCache.evict(payId);
     }
 
 }

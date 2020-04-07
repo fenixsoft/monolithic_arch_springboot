@@ -9,6 +9,12 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+  resources:
+    chain:
+      compressed: true
+      cache: true
+    cache:
+      period: 86400
 
 logging:
   pattern:

@@ -87,7 +87,10 @@ public class ProductResource {
      * 创建新的产品
      */
     @POST
-    @CacheEvict(key = "'ALL_PRODUCT'")
+    @Caching(evict = {
+            @CacheEvict(key = "#product.id"),
+            @CacheEvict(key = "'ALL_PRODUCT'")
+    })
     @RolesAllowed(Role.ADMIN)
     public Product createProduct(@Valid Product product) {
         return service.saveProduct(product);

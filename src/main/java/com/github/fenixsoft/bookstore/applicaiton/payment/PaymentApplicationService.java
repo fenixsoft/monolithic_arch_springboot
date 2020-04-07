@@ -19,12 +19,11 @@
 package com.github.fenixsoft.bookstore.applicaiton.payment;
 
 import com.github.fenixsoft.bookstore.applicaiton.payment.dto.Settlement;
-import com.github.fenixsoft.bookstore.domain.payment.Payment;
-import com.github.fenixsoft.bookstore.domain.payment.PaymentService;
-import com.github.fenixsoft.bookstore.domain.payment.Stockpile;
-import com.github.fenixsoft.bookstore.domain.payment.StockpileService;
+import com.github.fenixsoft.bookstore.domain.payment.*;
 import com.github.fenixsoft.bookstore.domain.warehouse.ProductService;
+import org.springframework.cache.Cache;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -48,6 +47,9 @@ public class PaymentApplicationService {
     @Inject
     private StockpileService stockpileService;
 
+    @Inject
+    private WalletService walletService;
+
     /**
      * 根据结算清单的内容执行，生成对应的支付单
      */
@@ -65,8 +67,9 @@ public class PaymentApplicationService {
      * 完成支付
      * 立即取消解冻定时器，执行扣减库存和资金
      */
-    public void accomplishPayment(String payId) {
-        paymentService.accomplish(payId);
+    public void accomplishPayment(Integer accountId, String payId) {
+        double price = paymentService.accomplish(payId);
+        walletService.decrease(accountId, price);
     }
 
     /**

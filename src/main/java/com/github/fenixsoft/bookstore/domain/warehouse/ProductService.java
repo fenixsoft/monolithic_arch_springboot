@@ -57,7 +57,7 @@ public class ProductService {
      * 获取仓库中指定的货物信息
      */
     public Product getProduct(Integer id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElse(null);
     }
 
     /**

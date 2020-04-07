@@ -24,7 +24,7 @@ package com.github.fenixsoft.bookstore.domain.auth;
  * @author icyfenix@gmail.com
  * @date 2020/3/16 11:32
  **/
-public class Role {
-    public static final String USER = "ROLE_USER";
-    public static final String ADMIN = "ROLE_ADMIN";
+public interface Role {
+    String USER = "ROLE_USER";
+    String ADMIN = "ROLE_ADMIN";
 }

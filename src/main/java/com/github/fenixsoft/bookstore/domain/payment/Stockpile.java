@@ -43,22 +43,12 @@ public class Stockpile extends BaseEntity {
     @JoinColumn(name = "product_id")
     private transient Product product;
 
-    private Integer productId;
-
     public Integer getAmount() {
         return amount;
     }
 
     public void setAmount(Integer amount) {
         this.amount = amount;
-    }
-
-    public Integer getFrozen() {
-        return frozen;
-    }
-
-    public void setFrozen(Integer frozen) {
-        this.frozen = frozen;
     }
 
     public void frozen(Integer number) {

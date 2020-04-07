@@ -18,6 +18,9 @@
 
 package com.github.fenixsoft.bookstore.domain.payment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,6 +32,8 @@ import javax.inject.Named;
  **/
 @Named
 public class StockpileService {
+
+    private static final Logger log = LoggerFactory.getLogger(StockpileService.class);
 
     @Inject
     private StockpileRepository repository;
@@ -69,6 +74,7 @@ public class StockpileService {
         Stockpile stock = repository.findById(productId).orElseThrow();
         stock.frozen(amount);
         repository.save(stock);
+        log.info("冻结库存，商品{}，数量：{}", productId, amount);
     }
 
     /**
@@ -76,7 +82,10 @@ public class StockpileService {
      * 从冻结货物中移动指定数量至正常状态
      */
     public void thawed(Integer productId, Integer amount) {
-        frozen(productId, -1 * amount);
+        Stockpile stock = repository.findById(productId).orElseThrow();
+        stock.thawed(amount);
+        repository.save(stock);
+        log.info("解冻库存，商品：{}，数量：{}", productId, amount);
     }
 
     /**

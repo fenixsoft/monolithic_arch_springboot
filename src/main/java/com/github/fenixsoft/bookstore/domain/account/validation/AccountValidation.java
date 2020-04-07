@@ -64,8 +64,13 @@ public class AccountValidation<T extends Annotation> implements ConstraintValida
     public static class AuthenticatedAccountValidator extends AccountValidation<AuthenticatedAccount> {
         public void initialize(AuthenticatedAccount constraintAnnotation) {
             predicate = c -> {
-                AuthenticAccount loginUser = (AuthenticAccount) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-                return c.getId().equals(loginUser.getId());
+                Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                if ("anonymousUser".equals(principal)) {
+                    return false;
+                } else {
+                    AuthenticAccount loginUser = (AuthenticAccount) principal;
+                    return c.getId().equals(loginUser.getId());
+                }
             };
         }
     }

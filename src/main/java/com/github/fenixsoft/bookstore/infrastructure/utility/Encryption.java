@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.inject.Named;
+import java.util.Optional;
 
 /**
  * 默认的加密工具
@@ -47,7 +48,7 @@ public class Encryption {
      * 使用默认加密算法进行编码
      */
     public String encode(CharSequence rawPassword) {
-        return passwordEncoder().encode(rawPassword);
+        return passwordEncoder().encode(Optional.ofNullable(rawPassword).orElse(""));
     }
 
 }

@@ -45,17 +45,9 @@ public class CodedMessage {
     private String message;
     private Object data;
 
-    public CodedMessage() {
-    }
-
     public CodedMessage(Integer code, String message) {
         setCode(code);
         setMessage(message);
-    }
-
-    public CodedMessage(Integer code, String message, Object data) {
-        this(code, message);
-        setData(data);
     }
 
     public Integer getCode() {

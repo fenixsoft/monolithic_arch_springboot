@@ -91,7 +91,6 @@ public class Settlement {
         public void setProductId(Integer productId) {
             this.productId = productId;
         }
-
     }
 
     /**

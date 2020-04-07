@@ -18,8 +18,9 @@
 
 package com.github.fenixsoft.bookstore.domain.payment;
 
-import com.github.fenixsoft.bookstore.applicaiton.payment.dto.Settlement;
 import com.github.fenixsoft.bookstore.domain.BaseEntity;
+import com.github.fenixsoft.bookstore.domain.account.Account;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.Entity;
 import java.util.Date;
@@ -40,12 +41,10 @@ public class Payment extends BaseEntity {
      * 支付状态
      */
     public enum State {
-        // 最初状态
         /**
          * 等待支付中
          */
         WAITING,
-        // 中间状态
         /**
          * 已取消
          */
@@ -54,30 +53,25 @@ public class Payment extends BaseEntity {
          * 已支付
          */
         PAYED,
-        // 最终状态
         /**
-         * 已完成（已支付，并且商品已扣减）
+         * 已超时回滚（未支付，并且商品已恢复）
          */
-        COMMIT,
-        /**
-         * 已回滚（未支付，并且商品已恢复）
-         */
-        ROLLBACK
-
-
+        TIMEOUT
     }
 
     public Payment() {
     }
 
-    public Payment(Double totalPrice, Integer expires) {
+    public Payment(Double totalPrice, Long expires) {
         setTotalPrice(totalPrice);
         setExpires(expires);
         setCreateTime(new Date());
         setPayState(State.WAITING);
         // 下面这两个是随便写的，实际应该根据情况调用支付服务，返回待支付的ID
         setPayId(UUID.randomUUID().toString());
-        setPaymentLink("http://localhost:8080/pay/modify/" + getPayId() + "?state=PAYED");
+        // 产生支付单的时候一定是有用户的
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        setPaymentLink("/pay/modify/" + getPayId() + "?state=PAYED&accountId=" + account.getId());
     }
 
     private Date createTime;
@@ -86,13 +80,11 @@ public class Payment extends BaseEntity {
 
     private Double totalPrice;
 
-    private Integer expires;
+    private Long expires;
 
     private String paymentLink;
 
     private State payState;
-
-    public transient Settlement settlement;
 
     public String getPayId() {
         return payId;
@@ -110,11 +102,11 @@ public class Payment extends BaseEntity {
         this.createTime = createTime;
     }
 
-    public Integer getExpires() {
+    public Long getExpires() {
         return expires;
     }
 
-    public void setExpires(Integer expires) {
+    public void setExpires(Long expires) {
         this.expires = expires;
     }
 

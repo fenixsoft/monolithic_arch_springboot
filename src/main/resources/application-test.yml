@@ -1,0 +1,18 @@
+database: hsqldb
+
+spring:
+  datasource:
+    schema: "classpath:db/${database}/schema.sql"
+    data: "classpath:db/${database}/data.sql"
+    sql-script-encoding: UTF-8
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(-){faint} %clr([%t]){faint} %clr(%-40logger{39}){cyan}[%line]%clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+  level:
+    root: INFO
+    com.github.fenixsoft: DEBUG

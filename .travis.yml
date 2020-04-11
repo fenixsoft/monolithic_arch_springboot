@@ -14,3 +14,5 @@ deploy:
     script: bash travis_docker_push.sh
     on:
       branch: master
+after_success:
+  - mvn clean test jacoco:report coveralls:report

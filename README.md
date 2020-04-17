@@ -6,13 +6,14 @@
   </a>
 </p>
 <p align="center">
-    <a href="https://iycfenix.cn"  style="display:inline-block"><img src="https://icyfenix.cn/images/Release-v1.png"></a>
+    <a href="https://icyfenix.cn"  style="display:inline-block"><img src="https://icyfenix.cn/images/Release-v1.svg"></a>
     <a href="https://travis-ci.com/fenixsoft/monolithic_arch_springboot" target="_blank"  style="display:inline-block"><img src="https://travis-ci.com/fenixsoft/monolithic_arch_springboot.svg?branch=master" alt="Travis-CI"></a>
     <a href='https://coveralls.io/github/fenixsoft/monolithic_arch_springboot?branch=master'><img src='https://coveralls.io/repos/github/fenixsoft/monolithic_arch_springboot/badge.svg?branch=master'  target="_blank"  style="display:inline-block" alt='Coverage Status' /></a>
-    <a href="https://creativecommons.org/licenses/by/4.0/"  target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/DocLicense-CC-red.png" alt="Document License"></a>
-    <a href="https://www.apache.org/licenses/LICENSE-2.0"  target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/License-Apache.png" alt="License"></a>
-    <a href="https://icyfenix.cn/introduction/about-me.html" target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/Author-IcyFenix-blue.png" alt="About Author"></a>
+    <a href="https://www.apache.org/licenses/LICENSE-2.0"  target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/License-Apache.svg" alt="License"></a>
+<a href="https://creativecommons.org/licenses/by/4.0/"  target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/DocLicense-CC-red.svg" alt="Document License"></a>
+    <a href="https://icyfenix.cn/introduction/about-me.html" target="_blank" style="display:inline-block"><img src="https://icyfenix.cn/images/Author-IcyFenix-blue.svg" alt="About Author"></a>
 </p>
+
 
 如果你此时并不曾了解过什么是“The Fenix Project”，建议先阅读<a href="https://icyfenix.cn/introduction/about-the-fenix-project.html">这部分内容</a>。
 
@@ -110,22 +111,15 @@ Fenix's BookStore单体架构后端参考（并未完全遵循）了DDD的分层
 4. Infrastructure：对应DDD中的Infrastructure层，向其他层提供通用的技术能力，譬如持久化能力、远程服务通讯、工具集，等等。
 
 <p align="center">
-    <img  src="https://raw.githubusercontent.com/fenixsoft/fenix-bookstore-frontend/master/markdown/ddd-arch.png" >
+    <img  src="./images/ddd-arch.png" >
 </p>
+
 
 ## 协议
 
-本作品代码部分采用[Apache 2.0协议](https://www.apache.org/licenses/LICENSE-2.0)进行许可。
+- 本文档代码部分采用[Apache 2.0协议](https://www.apache.org/licenses/LICENSE-2.0)进行许可。你可以自由地对代码进行修改，再发布，可以用作商业用途。但要求你使用代码时遵循：
+  - 注明作者、代码来源，并保留Apache 2.0协议文件，包括在原有代码和衍生代码中，带有原来的版权协议及代码来源。
 
-您同样自由地对代码进行修改，再发布，可以用作商业用途。
-
-只要您遵守许可协议中保留作者署名、保留Apache License即可。
-
-本作品文档部分采用[知识共享署名 4.0 国际许可协议](http://creativecommons.org/licenses/by/4.0/)进行许可。 
-
-您可以自由地：
-
-- 共享 — 在任何媒介上以任何形式复制、发行本作品
-- 演绎 — 修改、转换或以本作品为基础进行二次创作
-
-只要您遵守许可协议条款中署名、非商业性使用、相同方式共享的条件，许可人就无法收回您的这些权利。
+- 本作品文档部分采用[知识共享署名 4.0 国际许可协议](http://creativecommons.org/licenses/by/4.0/)进行许可。 你可以自由地共享，包括在任何媒介上以任何形式复制、发行本作品，亦可以自由地演绎、修改、转换或以本作品为基础进行二次创作。但要求你使用文档时遵循：
+  - 署名：应在使用本文档的全部或部分内容时候，注明原作者及来源信息。
+  - 非商业性使用：不得用于商业出版或其他任何带有商业性质的行为。如需商业时候，请联系作者授权。

@@ -27,6 +27,7 @@ import org.springframework.cache.Cache;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityNotFoundException;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -83,7 +84,7 @@ public class PaymentService {
      */
     public double accomplish(String payId) {
         synchronized (payId.intern()) {
-            Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
+            Payment payment = paymentRepository.getByPayId(payId);
             if (payment.getPayState() == Payment.State.WAITING) {
                 payment.setPayState(Payment.State.PAYED);
                 paymentRepository.save(payment);
@@ -104,7 +105,7 @@ public class PaymentService {
      */
     public void cancel(String payId) {
         synchronized (payId.intern()) {
-            Payment payment = paymentRepository.getByPayId(payId).orElseThrow();
+            Payment payment = paymentRepository.getByPayId(payId);
             if (payment.getPayState() == Payment.State.WAITING) {
                 payment.setPayState(Payment.State.CANCEL);
                 paymentRepository.save(payment);
@@ -134,7 +135,7 @@ public class PaymentService {
             public void run() {
                 synchronized (payment.getPayId().intern()) {
                     // 使用2分钟之前的Payment到数据库中查出当前的Payment
-                    Payment currentPayment = paymentRepository.findById(payment.getId()).orElseThrow();
+                    Payment currentPayment = paymentRepository.findById(payment.getId()).orElseThrow(() -> new EntityNotFoundException(payment.getId().toString()));
                     if (currentPayment.getPayState() == Payment.State.WAITING) {
                         log.info("支付单{}当前状态为：WAITING，转变为：TIMEOUT", payment.getId());
                         accomplishSettlement(Payment.State.TIMEOUT, payment.getPayId());

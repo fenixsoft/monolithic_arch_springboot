@@ -1,14 +1,8 @@
 package com.github.fenixsoft.bookstore.infrastructure.configuration;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.CacheControl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Spring Security安全配置

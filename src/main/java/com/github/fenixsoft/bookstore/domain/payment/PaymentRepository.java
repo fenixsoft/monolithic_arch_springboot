@@ -30,6 +30,6 @@ import java.util.Optional;
  **/
 public interface PaymentRepository extends CrudRepository<Payment, Integer> {
 
-    Optional<Payment> getByPayId(String payId);
+    Payment getByPayId(String payId);
 
 }

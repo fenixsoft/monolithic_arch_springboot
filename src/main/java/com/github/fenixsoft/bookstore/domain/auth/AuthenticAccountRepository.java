@@ -20,6 +20,7 @@ package com.github.fenixsoft.bookstore.domain.auth;
 
 import com.github.fenixsoft.bookstore.domain.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +39,6 @@ public class AuthenticAccountRepository {
     private AccountRepository databaseUserRepo;
 
     public AuthenticAccount findByUsername(String username) {
-        return new AuthenticAccount(Optional.ofNullable(databaseUserRepo.findByUsername(username)).orElseThrow(() -> new UnauthorizedUserException("用户" + username + "不存在")));
+        return new AuthenticAccount(Optional.ofNullable(databaseUserRepo.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("用户" + username + "不存在")));
     }
 }

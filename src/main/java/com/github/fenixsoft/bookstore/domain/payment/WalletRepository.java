@@ -20,6 +20,8 @@ package com.github.fenixsoft.bookstore.domain.payment;
 
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.Optional;
+
 /**
  * 钱包数据仓库
  *
@@ -28,6 +30,6 @@ import org.springframework.data.repository.CrudRepository;
  **/
 public interface WalletRepository extends CrudRepository<Wallet, Integer> {
 
-    Wallet findByAccountId(Integer accountId);
+    Optional<Wallet> findByAccountId(Integer accountId);
 
 }

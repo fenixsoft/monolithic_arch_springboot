@@ -44,7 +44,7 @@ public class AuthenticAccountDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return Optional.ofNullable(accountRepository.findByUsername(username)).orElseThrow(() -> new UsernameNotFoundException("未找到该用户:" + username));
+        return accountRepository.findByUsername(username);
     }
 
 }

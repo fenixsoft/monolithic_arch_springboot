@@ -45,9 +45,6 @@ public class PaymentApplicationService {
     private ProductService productService;
 
     @Inject
-    private StockpileService stockpileService;
-
-    @Inject
     private WalletService walletService;
 
     @Resource(name = "settlement")
@@ -88,20 +85,6 @@ public class PaymentApplicationService {
         paymentService.cancel(payId);
         // 支付成功的清除缓存
         settlementCache.evict(payId);
-    }
-
-    /**
-     * 根据产品查询库存
-     */
-    public Stockpile getStockpile(Integer productId) {
-        return stockpileService.getByProductId(productId);
-    }
-
-    /**
-     * 将指定的产品库存调整为指定数额
-     */
-    public void setStockpileAmountByProductId(Integer productId, Integer amount) {
-        stockpileService.set(productId, amount);
     }
 
 }

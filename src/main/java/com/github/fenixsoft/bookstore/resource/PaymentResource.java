@@ -74,23 +74,4 @@ public class PaymentResource {
         }
     }
 
-    /**
-     * 将指定的产品库存调整为指定数额
-     */
-    @PATCH
-    @Path("/stockpile/{productId}")
-    @RolesAllowed(Role.ADMIN)
-    public Response updateStockpile(@PathParam("productId") Integer productId, @QueryParam("amount") Integer amount) {
-        return CommonResponse.op(() -> service.setStockpileAmountByProductId(productId, amount));
-    }
-
-    /**
-     * 根据产品查询库存
-     */
-    @GET
-    @Path("/stockpile/{productId}")
-    @RolesAllowed(Role.ADMIN)
-    public Stockpile queryStockpile(@PathParam("productId") Integer productId) {
-        return service.getStockpile(productId);
-    }
 }

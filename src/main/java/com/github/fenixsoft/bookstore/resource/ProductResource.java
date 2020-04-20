@@ -20,6 +20,7 @@ package com.github.fenixsoft.bookstore.resource;
 
 import com.github.fenixsoft.bookstore.applicaiton.ProductApplicationService;
 import com.github.fenixsoft.bookstore.domain.auth.Role;
+import com.github.fenixsoft.bookstore.domain.payment.Stockpile;
 import com.github.fenixsoft.bookstore.domain.warehouse.Product;
 import com.github.fenixsoft.bookstore.infrastructure.jaxrs.CommonResponse;
 import org.springframework.cache.annotation.CacheConfig;
@@ -110,5 +111,24 @@ public class ProductResource {
         return CommonResponse.op(() -> service.removeProduct(id));
     }
 
+    /**
+     * 将指定的产品库存调整为指定数额
+     */
+    @PATCH
+    @Path("/stockpile/{productId}")
+    @RolesAllowed(Role.ADMIN)
+    public Response updateStockpile(@PathParam("productId") Integer productId, @QueryParam("amount") Integer amount) {
+        return CommonResponse.op(() -> service.setStockpileAmountByProductId(productId, amount));
+    }
+
+    /**
+     * 根据产品查询库存
+     */
+    @GET
+    @Path("/stockpile/{productId}")
+    @RolesAllowed(Role.ADMIN)
+    public Stockpile queryStockpile(@PathParam("productId") Integer productId) {
+        return service.getStockpile(productId);
+    }
 
 }

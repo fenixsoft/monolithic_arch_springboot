@@ -9,6 +9,7 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: none
+    open-in-view: false
   resources:
     chain:
       compressed: true

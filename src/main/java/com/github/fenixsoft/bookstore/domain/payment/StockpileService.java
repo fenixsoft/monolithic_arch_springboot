@@ -54,6 +54,7 @@ public class StockpileService {
         Stockpile stock = repository.findById(productId).orElseThrow(() -> new EntityNotFoundException(productId.toString()));
         stock.decrease(amount);
         repository.save(stock);
+        log.info("库存出库，商品：{}，数量：{}", productId, amount);
     }
 
     /**
@@ -64,6 +65,7 @@ public class StockpileService {
         Stockpile stock = repository.findById(productId).orElseThrow(() -> new EntityNotFoundException(productId.toString()));
         stock.increase(amount);
         repository.save(stock);
+        log.info("库存入库，商品：{}，数量：{}", productId, amount);
     }
 
 
@@ -75,7 +77,7 @@ public class StockpileService {
         Stockpile stock = repository.findById(productId).orElseThrow(() -> new EntityNotFoundException(productId.toString()));
         stock.frozen(amount);
         repository.save(stock);
-        log.info("冻结库存，商品{}，数量：{}", productId, amount);
+        log.info("冻结库存，商品：{}，数量：{}", productId, amount);
     }
 
     /**

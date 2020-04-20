@@ -63,14 +63,4 @@ class PaymentResourceTest extends JAXRSResourceBase {
         assertOK(get(payment.getPaymentLink()));
     }
 
-    @Test
-    void updateAndQueryStockpile() {
-        authenticatedScope(() -> {
-            assertOK(patch("/pay/stockpile/1?amount=20"));
-            Stockpile stockpile = get("/pay/stockpile/1").readEntity(Stockpile.class);
-            assertEquals(20, stockpile.getAmount());
-        });
-
-    }
-
 }

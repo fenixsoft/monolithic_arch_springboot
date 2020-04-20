@@ -1,5 +1,6 @@
 package com.github.fenixsoft.bookstore.resource;
 
+import com.github.fenixsoft.bookstore.domain.payment.Stockpile;
 import com.github.fenixsoft.bookstore.domain.warehouse.Product;
 import org.json.JSONException;
 import org.junit.jupiter.api.Assertions;
@@ -62,5 +63,14 @@ class ProductResourceTest extends JAXRSResourceBase {
         assertForbidden(delete("/products/1"));
         authenticatedScope(() -> assertOK(delete("/products/1")));
         assertEquals(number - 1, jsonArray(get("/products")).length());
+    }
+
+    @Test
+    void updateAndQueryStockpile() {
+        authenticatedScope(() -> {
+            assertOK(patch("/products/stockpile/1?amount=20"));
+            Stockpile stockpile = get("/products/stockpile/1").readEntity(Stockpile.class);
+            assertEquals(20, stockpile.getAmount());
+        });
     }
 }

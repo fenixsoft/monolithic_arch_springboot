@@ -29,7 +29,7 @@
 > $ docker run -d -p 8080:8080 --name bookstore icyfenix/bookstore:monolithic 
 > ```
 >
-> 然后在浏览器访问：[http://localhost:8080](http://localhost:8080)
+> 然后在浏览器访问：[http://localhost:8080](http://localhost:8080)，系统预置了一个用户（user:icyfenix，pw:123456），也可以注册新用户来测试。
 >
 > 默认会使用HSQLDB的内存模式作为数据库，并在系统启动时自动初始化好了Schema，完全开箱即用。但这同时也意味着当程序运行结束时，所有的数据都将不会被保留。
 >
@@ -64,7 +64,7 @@
 >$ java -jar target/bookstore-1.0.0-Monolithic-SNAPSHOT.jar
 >```
 >
->然后在浏览器访问：[http://localhost:8080](http://localhost:8080)
+>然后在浏览器访问：[http://localhost:8080](http://localhost:8080)，系统预置了一个用户（user:icyfenix，pw:123456），也可以注册新用户来测试。
 
 - 通过Git上的源码，在IDE环境中运行：
 
@@ -110,9 +110,12 @@ Fenix's BookStore单体架构后端参考（并未完全遵循）了DDD的分层
 3. Domain：对应DDD中的Domain层，负责实现业务逻辑，即表达业务概念，处理业务状态信息以及业务规则这些行为，此层是整个项目的重点。
 4. Infrastructure：对应DDD中的Infrastructure层，向其他层提供通用的技术能力，譬如持久化能力、远程服务通讯、工具集，等等。
 
+<GitHubWrapper>
 <p align="center">
-    <img  src="./images/ddd-arch.png" >
+    <img  src="https://raw.githubusercontent.com/fenixsoft/awesome-fenix/master/.vuepress/public/images/ddd-arch.png" >
 </p>
+</GitHubWrapper>
+
 
 
 ## 协议

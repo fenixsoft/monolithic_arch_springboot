@@ -75,7 +75,7 @@ public class OAuthClientDetailsService implements ClientDetailsService {
         // 提供客户端ID和密钥，并指定该客户端支持密码授权、刷新令牌两种访问类型
         builder.withClient(CLIENT_ID)
                 .secret(passwordEncoder.encode(CLIENT_SECRET))
-                .scopes("ALL")
+                .scopes("BROWSER")
                 .authorizedGrantTypes("password", "refresh_token");
         clientDetailsService = builder.build();
     }

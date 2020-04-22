@@ -55,7 +55,7 @@ public class JWTAccessTokenService extends DefaultTokenServices {
         // access_token有效期，单位：秒，默认12小时
         setAccessTokenValiditySeconds(60 * 60 * 3);
         // refresh_token的有效期，单位：秒, 默认30天
-        // 这决定了客户端选择“记住当前登录用户”的最长时效，即失效前都不用再请求用户赋权了，为便于测试，改为15分钟
+        // 这决定了客户端选择“记住当前登录用户”的最长时效，即失效前都不用再请求用户赋权了
         setRefreshTokenValiditySeconds(60 * 60 * 24 * 15);
         // 是否支持refresh_token，默认false
         setSupportRefreshToken(true);

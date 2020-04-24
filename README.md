@@ -17,7 +17,7 @@
 
 如果你此时并不曾了解过什么是“The Fenix Project”，建议先阅读<a href="https://icyfenix.cn/introduction/about-the-fenix-project.html">这部分内容</a>。
 
-单体架构是Fenix's Bookstore'第一个版本的服务端实现，它与此后基于微服务（Spring Cloud、Kubernetes）、无服务（Knative）架构风格实现的其他版本，在功能需求上的表现是完全一致的。如果你不是针对性地带着解决某个具体问题、了解某项具体工具、技术的目的而来，而是时间充裕，希望了解软件架构的全貌与发展的话，笔者推荐以此工程入手来了解现代软件架构，因为单体架构的结构是相对直观的，易于理解的架构，对后面接触的其他架构风格也起良好的铺垫作用。此外，笔者在对应的文档中详细分析了作为一个架构设计者，会考虑哪些的通用问题，希望把抽象的“架构”一词具象化出来。
+单体架构是Fenix's Bookstore'第一个版本的服务端实现，它与此后基于微服务（Spring Cloud、Kubernetes）、服务网格（Istio）、无服务（Serverless）架构风格实现的其他版本，在业务功能上的表现是完全一致的。如果你不是针对性地带着解决某个具体问题、了解某项具体工具、技术的目的而来，而是时间充裕，希望了解软件架构的全貌与发展的话，笔者推荐以此工程入手来了解现代软件架构，因为单体架构的结构是相对直观的，易于理解的架构，对后面接触的其他架构风格也起良好的铺垫作用。此外，笔者在对应的文档中详细分析了作为一个架构设计者，会考虑哪些的通用问题，希望把抽象的“架构”一词具象化出来。
 
 ## 运行程序
 
@@ -50,15 +50,10 @@
 ># 进入工程根目录
 >$ cd monolithic_arch_springboot
 >
-># 编译打包（方式1）
+># 编译打包
 ># 采用Maven Wrapper，此方式只需要机器安装有JDK 8或以上版本即可，无需包括Maven在内的其他任何依赖
 ># 如在Windows下应使用mvnw.cmd package代替以下命令
 >$ ./mvnw package
->
-># 编译打包（方式2）
-># 直接采用Maven，由于国内访问Apache Maven的分发地址和中央仓库速度感人
-># 采用Maven Wrapper有可能长时间无响应，如你机器已安装了Maven，建议使用如下命令
->$ mvn package
 >
 ># 运行程序，地址为localhost:8080
 >$ java -jar target/bookstore-1.0.0-Monolithic-SNAPSHOT.jar

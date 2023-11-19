@@ -71,7 +71,7 @@
 >
 > - 可通过IDEA的Maven面板中Lifecycle里面的package来对项目进行打包、发布。
 >
-> - 在IDE环境中修改配置（如数据库等）会更加简单，具体可以参考工程中application.yml和application-mysql.ylm中的内容。
+> - 在IDE环境中修改配置（如数据库等）会更加简单，具体可以参考工程中application.yml和application-mysql.yml中的内容。
 
 ## 技术组件
 
